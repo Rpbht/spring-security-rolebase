@@ -8,6 +8,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+
+import com.cignex.rahul.springsecurityrolebase.filter.Filter1;
 
 
 @EnableWebSecurity
@@ -25,7 +28,7 @@ public class WebConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers("/").permitAll().antMatchers("/admin").hasAuthority("ADMIN").anyRequest()
-				.authenticated().and().csrf().disable().formLogin();
+				.authenticated().and().httpBasic().and().addFilterAfter(new Filter1(), BasicAuthenticationFilter.class).csrf().disable().formLogin();
 		//http.authorizeRequests().antMatchers("/").permitAll();
 	}
 
